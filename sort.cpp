@@ -121,7 +121,7 @@ int main(int argc, const char *argv[]){
 	for(int i = 1; i < argc; i++){
 		seq->append(std::stoi(argv[i]));
 	}
-	Sequence<int> *sorted = shakerSort<int>(seq, [](int a, int b) {return a - b;});
+	Sequence<int> *sorted = quickSort<int>(seq, [](int a, int b) {return a - b;});
 
 	for(int i = 0; i < sorted->getSize(); i++){
 		std::cout << sorted->get(i) << std::endl;

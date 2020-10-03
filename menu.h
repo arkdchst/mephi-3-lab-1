@@ -67,6 +67,10 @@ public:
 			throw std::runtime_error("default value out of bounds");
 	}
 
+	int getChoosen() const {
+		return this->chosenNum;
+	}
+
 	virtual std::string toString() override {
 		if(values.empty() || chosenNum == -1)
 			return this->name;
@@ -75,8 +79,6 @@ public:
 	}
 
 	virtual void enter() override {
-		if(values.empty())
-			return;
 		print();
 		int choose = readInt(1, values.size());
 		chosenNum = choose - 1;
@@ -90,7 +92,7 @@ private:
 	int from, to;
 
 	void print(){
-		::print("enter integer from " + std::to_string(from) + " to " + std::to_string(to));
+		::print("enter integer from " + std::to_string(from) + " to " + std::to_string(to) + ":");
 	}
 public:
 
@@ -104,6 +106,10 @@ public:
 
 	}
 
+	int getChoosen() const {
+		return this->value;
+	}
+
 	virtual std::string toString() override {
 		return this->name + " (" + std::to_string(value) + ")";
 	}
@@ -114,7 +120,7 @@ public:
 	}	
 };
 
-class Menu : public MenuItem{
+class Menu : public MenuItem {
 private:
 	std::vector<MenuItem*> items;
 	std::string name;
@@ -150,5 +156,23 @@ public:
 			else
 				items[choose - 1]->enter();
 		}
+	}
+};
+
+template <typename Function>
+class Action : public MenuItem {
+private:
+	Function actionFun;
+	std::string name;
+public:
+	Action(std::string name, Function actionFun) :
+		name(name), actionFun(actionFun){}
+
+	virtual std::string toString() override {
+		return name;
+	}
+
+	virtual void enter() override{
+		actionFun();
 	}
 };

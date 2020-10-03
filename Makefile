@@ -1,4 +1,5 @@
-.PHONY: all clean
+.PHONY: all
+.DEFAULT_GOAL := all
 all: test ui
 
 CMD := g++ -std=c++17 -g
