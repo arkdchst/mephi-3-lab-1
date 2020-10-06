@@ -1,11 +1,8 @@
 .PHONY: all
 .DEFAULT_GOAL := all
-all: test ui
+all: ui
 
 CMD := g++ -std=c++17 -g
 
-test: base.h sequence.h sort.h sort.cpp
-	$(CMD) sort.cpp -o test
-
-ui: base.h sequence.h sort.h menu.h sort.cpp ui.cpp
-	$(CMD) ui.cpp -o ui
+ui: base.h sequence.h sort.h menu.h ui.cpp
+	$(CMD) ui.cpp -pthread -o ui
