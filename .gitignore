@@ -1,2 +1,6 @@
 ui
+tests
 in.txt
+build/
+include/
+lib/
