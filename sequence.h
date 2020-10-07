@@ -43,6 +43,10 @@ template <typename T> class ArraySequence : public Sequence<T>{
 protected:
 	DynamicArray<T> *array;
 
+	ArraySequence(DynamicArray<T>* array){
+		this->array = array;
+	}
+	
 public:
 	ArraySequence(){
 		this->array = new DynamicArray<T>();
@@ -52,12 +56,9 @@ public:
 		this->array = new DynamicArray<T>(*seq.array);
 	}
 
-	ArraySequence(DynamicArray<T>* array){
-		this->array = array;
-	}
 
 
-	ArraySequence(T *items, int size){
+	ArraySequence(const T *items, int size){
 		this->array = new DynamicArray<T>(items, size);
 	}
 
@@ -157,6 +158,11 @@ public:
 template <typename T> class ListSequence : public Sequence<T>{
 protected:
 	LinkedList<T> *list;
+	
+	ListSequence(LinkedList<T> *list){
+		this->list = list;
+	}
+
 public:
 	ListSequence(){
 		this->list = new LinkedList<T>();
@@ -166,11 +172,8 @@ public:
 		this->list = new LinkedList<T>(*seq.list);
 	}
 
-	ListSequence(LinkedList<T> *list){
-		this->list = list;
-	}
 
-	ListSequence(T *items, int size){
+	ListSequence(const T *items, int size){
 		this->list = new LinkedList<T>(items, size);
 	}
 

@@ -7,7 +7,7 @@ CMD := g++ -std=c++17
 ui: base.h sequence.h sort.h menu.h ui.cpp
 	$(CMD) ui.cpp -pthread -o ui
 
-tests: base.h sequence.h lib/gtest/ include/gtest/ tests.cpp
+tests: base.h sequence.h sort.h lib/gtest/ include/gtest/ tests.cpp
 	$(CMD) tests.cpp lib/gtest/* -I include/ -pthread -o tests
 
 lib/gtest/: googletest/

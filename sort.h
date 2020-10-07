@@ -9,7 +9,7 @@
 
 
 template <typename T>
-Sequence<T>* bubbleSort(Sequence<T> *seq, int (*cmp)(T, T)){
+Sequence<T>* bubbleSort(const Sequence<T> *seq, int (*cmp)(T, T)){
 	Sequence<T> *newSeq = seq->clone();
 
 	auto swap = [newSeq](int i, int j) {
@@ -33,7 +33,7 @@ Sequence<T>* bubbleSort(Sequence<T> *seq, int (*cmp)(T, T)){
 
 
 template <typename T>
-Sequence<T>* quickSort(Sequence<T> *seq, int (*cmp)(T, T)){
+Sequence<T>* quickSort(const Sequence<T> *seq, int (*cmp)(T, T)){
 	Sequence<T> *newSeq = seq->clone();
 
 	auto swap = [newSeq](int i, int j) {
@@ -73,7 +73,7 @@ Sequence<T>* quickSort(Sequence<T> *seq, int (*cmp)(T, T)){
 
 
 template <typename T>
-Sequence<T>* shakerSort(Sequence<T> *seq, int (*cmp)(T, T)){
+Sequence<T>* shakerSort(const Sequence<T> *seq, int (*cmp)(T, T)){
 	Sequence<T> *newSeq = seq->clone();
 
 	if(seq->getSize() == 0) return newSeq;

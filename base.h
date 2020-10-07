@@ -22,7 +22,7 @@ public:
 	}
 
 
-	DynamicArray(T *data, int size) : DynamicArray(size) {
+	DynamicArray(const T *data, int size) : DynamicArray(size) {
 		for(int i = 0; i < size; i++)
 			this->data[i] = data[i];
 	}
@@ -111,7 +111,7 @@ public:
 
 	LinkedList() : size(0) {}
 
-	LinkedList(T *items, int size) : LinkedList() {
+	LinkedList(const T *items, int size) : LinkedList() {
 		if(size < 0) throw std::length_error(NEGATIVE_SIZE_MESSAGE);
 
 		Record **ptr = &(this->head);
