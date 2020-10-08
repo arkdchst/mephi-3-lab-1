@@ -6,40 +6,23 @@
 #include <limits>
 #include <exception>
 
-void print(std::string str){
-	if(str.empty()) return;
-
-	if(str.back() == ':')
-		std::cout << str << "\n";
-	else
-		std::cout << str << "\n\n";
-
-	std::cout.flush();
-}
-
 
 int readInt(int from=std::numeric_limits<int>::min(), int to=std::numeric_limits<int>::max()){
 	while(true){
-		try{
-			std::string line;
-			std::getline(std::cin, line);
-
-			int read = std::stoi(line);
-			if(read < from || read > to) throw nullptr;
-
-			std::cout << "\n";
-			return read;
-		}catch(...){
-			print("please, enter a number from " + std::to_string(from) + " to " + std::to_string(to) + ":");
+		int read;
+		std::cin >> read;
+		if(read < from || read > to || std::cin.fail()){
+			std::cout << "please, enter a number from " + std::to_string(from) + " to " + std::to_string(to) + ": ";
+			std::cin.clear(); std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 		}
-
+		else return read;
 	}
 }
 
 
 class MenuItem{
 public:
-	virtual void enter() = 0;
+	virtual void enter() = 0;//enter into item's context
 	virtual std::string toString() = 0;
 };
 
@@ -54,7 +37,7 @@ private:
 		for(int i = 0; i < values.size(); i++){
 			out += std::to_string(i + 1) + ". " + values[i] + "\n";
 		}
-		::print(out);
+		std::cout << out << std::endl;
 	}
 public:
 
@@ -92,7 +75,7 @@ private:
 	int from, to;
 
 	void print(){
-		::print("enter integer from " + std::to_string(from) + " to " + std::to_string(to) + ":");
+		std::cout << "enter integer from " + std::to_string(from) + " to " + std::to_string(to) + ": ";
 	}
 public:
 
@@ -132,7 +115,7 @@ private:
 			out += std::to_string(i + 1) + ". " + items[i]->toString() + "\n";
 		}
 		out += std::to_string(items.size() + 1) + ". " + (isRoot ? "exit" : "back") + "\n";
-		::print(out);
+		std::cout << out << std::endl;
 	}
 public:
 	Menu(std::string name, std::vector<MenuItem*> items, bool isRoot=false) :

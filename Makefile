@@ -4,10 +4,10 @@ all: ui tests
 
 G++ := g++ -std=c++17
 
-ui: base.h base.tpp sequence.h sequence.tpp sort.h menu.h ui.cpp
+ui: base.hpp base.tpp sequence.hpp sequence.tpp sort.hpp menu.hpp ui.cpp
 	$(G++) ui.cpp -pthread -o ui
 
-tests: base.h base.tpp sequence.h sequence.tpp sort.h lib/gtest/ include/gtest/ tests.cpp
+tests: base.hpp base.tpp sequence.hpp sequence.tpp sort.hpp lib/gtest/ include/gtest/ tests.cpp
 	$(G++) tests.cpp lib/gtest/* -I include/ -pthread -o tests
 
 lib/gtest/: googletest/
@@ -22,7 +22,10 @@ include/gtest/: googletest/
 	cp -r googletest/googletest/include/ ./
 	touch $@
 
-googletest/: .gitmodules
+googletest/: googletest/.git
+	touch $@
+
+googletest/.git: .gitmodules
 	git submodule update --init googletest/
 	touch $@
 

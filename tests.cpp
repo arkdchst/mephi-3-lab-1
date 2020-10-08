@@ -1,16 +1,20 @@
 
 #include "gtest/gtest.h"
-#include "sort.h"
+#include "sort.hpp"
 
 #include <utility>
 #include <functional>
 
-class SortTest : public testing::Test, public testing::WithParamInterface<std::tuple<std::pair<std::vector<int>,std::vector<int>>,Sequence<int>*(*)(const Sequence<int>*, int(*)(int,int))>> {
+class SortTest : public testing::Test, public testing::WithParamInterface	<std::tuple<
+																				std::pair<std::vector<int>,std::vector<int>>,
+																				SortFun<int>*
+																			>>
+{
 public:
 	Sequence<int> *sequence;
 	Sequence<int> *expected;
-	int (*const compareFun)(int, int) = [](int a,int b){return a - b;};
-	Sequence<int>*(*fun)(const Sequence<int>*, int(*)(int,int));
+
+	SortFun<int> *fun;
 
 
 	virtual void SetUp(){
@@ -27,16 +31,20 @@ public:
 
 };
 
-TEST_P(SortTest,){
-	Sequence<int> *sorted = fun(sequence, compareFun);
+TEST_P(SortTest,){ //test sorting algorithms
+	Sequence<int> *sorted = fun(sequence, defaultCompareFun);
 	ASSERT_TRUE(*sorted == *expected);
 
 	delete sorted;
 }
 
-const std::pair<std::vector<int>,std::vector<int>> data[] = {	{{1,2,3,4,4},{1,2,3,4,4}},
-															 	{{4,4,3,2,1},{1,2,3,4,4}},
-																{{3,4,2,1,4},{1,2,3,4,4}}
+const std::pair<std::vector<int>,std::vector<int>> data[] = {	
+																{{1,2,3,4,4},{1,2,3,4,4}},
+																{{4,4,3,2,1},{1,2,3,4,4}},
+																{{3,4,2,1,4},{1,2,3,4,4}},
+																{{2,1},{1,2}},
+																{{1},{1}},
+																{{},{}},
 															};
-Sequence<int>*(*const algos[])(const Sequence<int>*, int(*)(int,int)) = {bubbleSort, shakerSort, quickSort};
+const SortFun<int> *algos[] = {bubbleSort, shakerSort, quickSort};
 INSTANTIATE_TEST_SUITE_P(, SortTest, testing::Combine(testing::ValuesIn(data), testing::ValuesIn(algos)));

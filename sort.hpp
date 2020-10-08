@@ -1,15 +1,21 @@
 
-#include "base.h"
-#include "sequence.h"
+#include "base.hpp"
+#include "sequence.hpp"
 
 #include <stack>
 #include <utility>
 #include <iostream>
 #include <string>
 
+template <typename T>
+using CompareFun = int (T, T);
+template <typename T>
+using SortFun = Sequence<T>*(const Sequence<T>*, CompareFun<T>*);
+
+int (*const defaultCompareFun)(int, int) = [](int a,int b){return a - b;};
 
 template <typename T>
-Sequence<T>* bubbleSort(const Sequence<T> *seq, int (*cmp)(T, T)){
+Sequence<T>* bubbleSort(const Sequence<T> *seq, CompareFun<T> *cmp){
 	Sequence<T> *newSeq = seq->clone();
 
 	auto swap = [newSeq](int i, int j) {
@@ -33,7 +39,7 @@ Sequence<T>* bubbleSort(const Sequence<T> *seq, int (*cmp)(T, T)){
 
 
 template <typename T>
-Sequence<T>* quickSort(const Sequence<T> *seq, int (*cmp)(T, T)){
+Sequence<T>* quickSort(const Sequence<T> *seq, CompareFun<T> *cmp){
 	Sequence<T> *newSeq = seq->clone();
 
 	auto swap = [newSeq](int i, int j) {
@@ -73,7 +79,7 @@ Sequence<T>* quickSort(const Sequence<T> *seq, int (*cmp)(T, T)){
 
 
 template <typename T>
-Sequence<T>* shakerSort(const Sequence<T> *seq, int (*cmp)(T, T)){
+Sequence<T>* shakerSort(const Sequence<T> *seq, CompareFun<T> *cmp){
 	Sequence<T> *newSeq = seq->clone();
 
 	if(seq->getSize() == 0) return newSeq;
