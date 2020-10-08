@@ -100,11 +100,11 @@ void startSorting(Algorithm algo, Base base, int dataLen, DataType dataType){
 		std::thread shakerThread(threadFun, std::ref(shakerTime), shakerSort<int>, true);
 
 		bubbleThread.join();
-		std::cout << "bubble time: " + std::to_string(bubbleTime) + " sec" << std::endl;
+		std::cout << "elapsed time for bubble sort: " + std::to_string(bubbleTime) + " sec" << std::endl;
 		quickThread.join();
-		std::cout << "quick time: " + std::to_string(quickTime) + " sec" << std::endl;
+		std::cout << "elapsed time for quick sort: " + std::to_string(quickTime) + " sec" << std::endl;
 		shakerThread.join();
-		std::cout << "shaker time: " + std::to_string(shakerTime) + " sec" << std::endl;
+		std::cout << "elapsed time for shaker sort: " + std::to_string(shakerTime) + " sec" << std::endl;
 	}else{
 
 		struct timespec tp1, tp2;
@@ -124,7 +124,7 @@ void startSorting(Algorithm algo, Base base, int dataLen, DataType dataType){
 
 
 		std::cout << "sorted!" << std::endl;
-		std::cout << "elapsed CPU time: ";
+		std::cout << "elapsed time: ";
 		std::cout << std::to_string(deltaToSec(tp1, tp2)) + " sec" << std::endl;
 	}
 
