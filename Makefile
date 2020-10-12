@@ -1,28 +1,34 @@
 .PHONY: all clean
 .DEFAULT_GOAL := all
-all: ui tests
 
 G++ := g++ -std=c++17
 
-ui: base.hpp base.tpp sequence.hpp sequence.tpp sort.hpp menu.hpp ui.cpp
-	$(G++) ui.cpp -pthread -o ui
+LIB_PATH := lib
+INCLUDE_PATH := include
+BIN_PATH := bin
+BUILD_PATH := build
+SOURCE_PATH := source
 
-tests: base.hpp base.tpp sequence.hpp sequence.tpp sort.hpp lib/gtest/ include/gtest/ tests.cpp
-	$(G++) tests.cpp lib/gtest/* -I include/ -pthread -o tests
+all: $(BIN_PATH)/ui $(BIN_PATH)/tests
 
-lib/gtest/: googletest/
-	cmake -B build/gtest/ googletest/
-	make -C build/gtest/ gtest gtest_main
-	mkdir -p lib/gtest/
-	cp build/gtest/lib/libgtest* lib/gtest/
+.PHONY: $(SOURCE_PATH)
+$(BIN_PATH)/ui $(BIN_PATH)/tests: $(SOURCE_PATH) $(LIB_PATH)/gtest $(INCLUDE_PATH)/gtest
+	make -C source/
+
+
+$(LIB_PATH)/gtest: googletest
+	cmake -B $(BUILD_PATH)/gtest/ googletest/
+	make -C $(BUILD_PATH)/gtest/ gtest gtest_main
+	mkdir -p $(LIB_PATH)/gtest/
+	cp $(BUILD_PATH)/gtest/lib/libgtest* $(LIB_PATH)/gtest/
 	touch $@
 
-include/gtest/: googletest/
-	mkdir -p include/
+$(INCLUDE_PATH)/gtest: googletest
+	mkdir -p $(INCLUDE_PATH)/
 	cp -r googletest/googletest/include/ ./
 	touch $@
 
-googletest/: googletest/.git
+googletest: googletest/.git
 	touch $@
 
 googletest/.git: .gitmodules
@@ -31,4 +37,5 @@ googletest/.git: .gitmodules
 
 
 clean:
-	rm -rf ui tests lib/gtest/ include/gtest/ build/
+	make -C source/ clean
+	rm -rf $(LIB_PATH)/gtest/ $(INCLUDE_PATH)/gtest/ $(BUILD_PATH)/
